@@ -42,7 +42,8 @@ int  getIO( std::auto_ptr<IOBase> *io, struct cable_t * cable, char const *dev,
 {
     int res;
     unsigned int use_freq;
-
+    fprintf(stderr, "getIO\n");
+      fprintf(stderr, "Unknown Cable \"%s\" \n", getCableName(cable->cabletype));
     if (!cable)
     {
         fprintf(stderr, "No cable selected. You must use -c option."
@@ -57,10 +58,12 @@ int  getIO( std::auto_ptr<IOBase> *io, struct cable_t * cable, char const *dev,
 
   if (cable->cabletype == CABLE_PP)
     {
+      printf("cable is pp\n");
 	  io->reset(new IOParport());
           io->get()->setVerbose(verbose);
           res = io->get()->Init(cable, dev, use_freq);
     }
+#if 0
   else if(cable->cabletype == CABLE_FTDI)  
   {
       io->reset(new IOFtdi(use_ftd2xx));
@@ -79,6 +82,7 @@ int  getIO( std::auto_ptr<IOBase> *io, struct cable_t * cable, char const *dev,
       io->get()->setVerbose(verbose);
       res = io->get()->Init(cable, serial, use_freq);
   }
+#endif
   else
   {
       fprintf(stderr, "Unknown Cable \"%s\" \n", getCableName(cable->cabletype));

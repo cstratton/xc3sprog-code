@@ -11,21 +11,25 @@ if(${WIN32})
 set(USE_STATIC_FTDI ON)
 endif(${WIN32})
 
-option(USE_FTD2XX "Use FTDI libFTD2XX instead of free libftdi" ON)
+#option(USE_FTD2XX "Use FTDI libFTD2XX instead of free libftdi" ON)
+option(USE_FTD2XX "Use FTDI libFTD2XX instead of free libftdi" OFF)
 
-find_package(libftdi)
-include_directories(${LIBFTDI_INCLUDE_DIR})
+#find_package(libftdi)
+#include_directories(${LIBFTDI_INCLUDE_DIR})
 
-if(USE_FTD2XX)
-  find_package(libFTD2XX)
-endif(USE_FTD2XX)
+#if(USE_FTD2XX)
+#  find_package(libFTD2XX)
+#endif(USE_FTD2XX)
 
-if(LIBFTD2XX_FOUND)
-  include_directories(${LIBFTD2XX_INCLUDE_DIR})
-  add_definitions( -DUSE_FTD2XX )
-else(LIBFTD2XX_FOUND)
+#if(LIBFTD2XX_FOUND)
+#  include_directories(${LIBFTD2XX_INCLUDE_DIR})
+#  add_definitions( -DUSE_FTD2XX )
+#else(LIBFTD2XX_FOUND)
   set(LIBFTD2XX_LIBRARIES "")
-endif(LIBFTD2XX_FOUND)
+#endif(LIBFTD2XX_FOUND)
+
+  set(LIBFTDI_LIBRARIES "")
+  set(LIBUSB_LIBRARIES "")
 
 if(EXISTS ${PROJECT_SOURCE_DIR}/.git) 
   set(VERSION_STRING "${xc3sprog_VERSION_MAJOR}.${xc3sprog_VERSION_MINOR}-git")
@@ -91,7 +95,9 @@ set (CONDITIONAL_LIBS)
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
    set (CONDITIONAL_FILES ${CONDITIONAL_FILES} "libusb_dyn.c")
 else("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-   find_package(libusb)
+   #find_package(libusb)
+   set(LIBUSB_INCLUDE_DIR "/usr/include")
+   set(LIBUSB_LIBRARIES "/usr/lib/x86_64-linux-gnu/libusb.a")
    include_directories(${LIBUSB_INCLUDE_DIR})
    set(CONDITIONAL_LIBS ${CONDITIONAL_LIBS} ${LIBUSB_LIBRARIES})
 endif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
@@ -121,7 +127,8 @@ ADD_CUSTOM_COMMAND(OUTPUT cables.h
 
 INCLUDE_DIRECTORIES(BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(xc3sproglib  STATIC ioparport.cpp ioftdi.cpp iofx2.cpp 
+#removed targets ioftdi.cpp iofx2.cpp 
+add_library(xc3sproglib  STATIC ioparport.cpp 
                       devicedb.cpp jtag.cpp jedecfile.cpp bitfile.cpp 
 			iobase.cpp  progalgxc95x.cpp utilities.cpp
 			progalgxcf.cpp progalgxcfp.cpp progalgxc3s.cpp

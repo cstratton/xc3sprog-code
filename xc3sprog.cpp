@@ -112,7 +112,7 @@ void test_IRChain(Jtag *jtag, IOBase *io,DeviceDB &db , int test_count)
   unsigned char dcmp[256];
   memset(din, 0xaa, 256);
   int run_irtest = 0;
-
+  test_count = 100;
   if(num == 0)
       /* the chain is not functional and we have no idea 
        * what parts to look for

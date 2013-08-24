@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #ifndef IOFTDI_H
 #define IOFTDI_H
-
+#if 0
 #include <ftdi.h>
 #include <usb.h>
 #if defined (__WIN32__)
@@ -40,10 +40,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 #define DEVICE_DEF  0x6010
 
 #define TX_BUF (4096)
-
+#endif
 class IOFtdi : public IOBase
 {
  protected:
+#if 0
 #ifdef USE_FTD2XX
   FT_HANDLE ftd2xx_handle;   
 #endif
@@ -57,7 +58,7 @@ class IOFtdi : public IOBase
   FILE *fp_dbg;
   bool device_has_fast_clock;
   unsigned int tck_freq;
-
+#endif
  public:
   IOFtdi(bool use_ftd2xx);
   ~IOFtdi();
